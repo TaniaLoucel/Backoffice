@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Montserrat',sans-serif;}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-thumb{background:#c9ced3;border-radius:6px;}
+</style>
+</helmet>
+
+<div style="display:flex;min-height:100vh;width:100%;background:#F1F2F4;font-family:'Montserrat',sans-serif;--fy: {{ rowPad }};">
+
+  <!-- ░░ SIDEBAR (chrome heredado) ░░ -->
+  <div style="width: {{ sbWidth }};background:#1755A1;box-shadow:5px 0 15px rgba(0,0,0,.22);flex-shrink:0;transition:width .25s ease;overflow:hidden;z-index:10;position:relative;">
+    <sc-if value="{{ sbOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;width:100%;color:#fff;">
+        <div onClick="{{ toggleSb }}" style="display:flex;align-items:center;gap:10px;padding:20px 19px 16px;cursor:pointer;">
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M0 12H13V10H0V12ZM0 7H10V5H0V7ZM0 0V2H13V0H0ZM18 9.59L14.42 6L18 2.41L16.59 1L11.59 6L16.59 11L18 9.59Z" fill="white"/></svg>
+          <span style="font-size:12px;">Menu</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:10px 16px 8px;"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M8 4H14V6H8V4ZM8 8H14V10H8V8ZM8 12H14V14H8V12ZM4 4H6V6H4V4ZM4 8H6V10H4V8ZM4 12H6V14H4V12ZM17.1 0H0.9C0.4 0 0 0.4 0 0.9V17.1C0 17.5 0.4 18 0.9 18H17.1C17.5 18 18 17.5 18 17.1V0.9C18 0.4 17.5 0 17.1 0ZM16 16H2V2H16V16Z" fill="white"/></svg><span style="font-size:12px;font-weight:600;">Requests</span></div>
+        <div style="padding:9px 16px 9px 19px;border-top:.5px solid rgba(255,255,255,.4);font-size:12px;">Assignment management</div>
+        <div style="padding:9px 16px 9px 19px;border-top:.5px solid rgba(255,255,255,.4);font-size:12px;">Requests with errors</div>
+        <div style="padding:9px 16px 9px 19px;border-top:.5px solid rgba(255,255,255,.4);font-size:12px;">Query request</div>
+        <div style="padding:9px 16px 9px 19px;border-top:.5px solid rgba(255,255,255,.4);background:rgba(255,255,255,.15);font-size:12px;font-weight:600;">Working requests</div>
+        <div style="padding:9px 16px 9px 36px;border-top:.5px solid rgba(255,255,255,.4);font-size:12px;font-weight:600;">Request evaluation</div>
+        <div style="padding:9px 16px 9px 36px;border-top:.5px solid rgba(255,255,255,.4);font-size:12px;">Unfinished requests</div>
+        <div style="padding:9px 16px 9px 19px;border-top:.5px solid rgba(255,255,255,.4);border-bottom:.5px solid rgba(255,255,255,.4);font-size:12px;">Role management</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:16px 16px 8px;"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 4C11.94 4 13.5 5.56 13.5 7.5C13.5 9.44 11.94 11 10 11C8.06 11 6.5 9.44 6.5 7.5C6.5 5.56 8.06 4 10 4Z" fill="white"/></svg><span style="font-size:12px;font-weight:600;">Customer management</span></div>
+        <div style="padding:9px 16px 9px 19px;border-top:.5px solid rgba(255,255,255,.4);font-size:12px;">Customer search</div>
+        <div style="padding:9px 16px 9px 19px;border-top:.5px solid rgba(255,255,255,.4);border-bottom:.5px solid rgba(255,255,255,.4);font-size:12px;">Customer data correction</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ sbCollapsed }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;align-items:center;padding-top:14px;gap:22px;width:100%;">
+        <svg onClick="{{ toggleSb }}" width="18" height="12" viewBox="0 0 18 12" fill="none" style="cursor:pointer;"><path d="M0 12H18V10H0V12ZM0 7H18V5H0V7ZM0 0V2H18V0H0Z" fill="white"/></svg>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M8 4H14V6H8V4ZM8 8H14V10H8V8ZM8 12H14V14H8V12ZM4 4H6V6H4V4ZM4 8H6V10H4V8ZM4 12H6V14H4V12ZM17.1 0H0.9C0.4 0 0 0.4 0 0.9V17.1C0 17.5 0.4 18 0.9 18H17.1C17.5 18 18 17.5 18 17.1V0.9C18 0.4 17.5 0 17.1 0ZM16 16H2V2H16V16Z" fill="white"/></svg>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 4C11.94 4 13.5 5.56 13.5 7.5C13.5 9.44 11.94 11 10 11C8.06 11 6.5 9.44 6.5 7.5C6.5 5.56 8.06 4 10 4Z" fill="white"/></svg>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- ░░ COLUMNA PRINCIPAL ░░ -->
+  <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+
+    <!-- TOPBAR (chrome heredado) -->
+    <div style="height:60px;background:#fff;box-shadow:0 4px 5px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:flex-end;padding:0 24px;gap:12px;flex-shrink:0;z-index:5;">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="cursor:pointer;"><circle cx="14" cy="14" r="13.5" stroke="#1755A1"/><path d="M12.33 20.11V15.94H15.66V20.11C15.66 20.56 16.04 20.94 16.5 20.94H19C19.46 20.94 19.83 20.56 19.83 20.11V14.27H21.25C21.63 14.27 21.81 13.8 21.52 13.55L14.56 7.27C14.24 6.99 13.76 6.99 13.44 7.27L6.47 13.55C6.19 13.8 6.36 14.27 6.75 14.27H8.16V20.11C8.16 20.56 8.54 20.94 9 20.94H11.5C11.96 20.94 12.33 20.56 12.33 20.11Z" fill="#1755A1"/></svg>
+      <div style="padding:4px 6px;background:#fff;border-radius:14px;outline:1px #1755A1 solid;display:inline-flex;align-items:center;gap:8px;cursor:pointer;"><div style="width:20px;height:20px;border-radius:50%;overflow:hidden;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><g clip-path="url(#fl)"><path fill-rule="evenodd" d="M0 0L10 10L0 20V0ZM20 0L10 10L20 20V0Z" fill="#000001"/><path fill-rule="evenodd" d="M0 0L10 10L20 0H0ZM0 20L10 10L20 20H0Z" fill="#009900"/><path fill-rule="evenodd" d="M20 0H18.14L0 18.14V20H1.86L20 1.86V0Z" fill="#FFCC00"/><path fill-rule="evenodd" d="M0 0V1.86L18.14 20H20V18.14L1.86 0H0Z" fill="#FFCC00"/></g><defs><clipPath id="fl"><rect width="20" height="20" rx="10" fill="white"/></clipPath></defs></svg></div><span style="color:#1755A1;font-size:11px;">Jamaica</span><svg width="7" height="4" viewBox="0 0 7 4" fill="none"><path d="M0 0L3.5 3.5L7 0H0Z" fill="#1755A1"/></svg></div>
+      <div style="padding:4px 18px;background:#fff;border-radius:14px;outline:1px #1755A1 solid;display:inline-flex;align-items:center;gap:18px;cursor:pointer;"><span style="color:#1755A1;font-size:11px;">Log out</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="#1755A1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+
+    <!-- MAIN -->
+    <div style="flex:1;overflow:auto;padding:16px 22px 36px;">
+
+      <!-- BARRA DE ACCIÓN -->
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+        <button onClick="{{ goBack }}" style="display:flex;align-items:center;gap:5px;background:none;border:none;color:#1F2D3D;font-size:14px;text-decoration:underline;cursor:pointer;font-family:'Montserrat',sans-serif;"><svg width="8" height="12" viewBox="0 0 8 12" fill="none"><path d="M7 1L1 6l6 5" stroke="#1F2D3D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Return</button>
+        <div style="display:flex;align-items:center;gap:7px;background:#E7C240;border-radius:15px;padding:5px 15px;color:#fff;font-size:11px;font-weight:500;"><svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="white" stroke-width="1.5"/><path d="M10 6V11M10 13.5V14" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>Request pending</div>
+        <div style="flex:1;"></div>
+        <button style="border:1px solid #21345E;border-radius:15px;padding:7px 17px;color:#21345E;font-size:11px;background:#fff;cursor:pointer;font-family:'Montserrat',sans-serif;">Telephone verification</button>
+        <div style="position:relative;">
+          <button onClick="{{ toggleDoc }}" style="border:1px solid #21345E;border-radius:15px;padding:7px 17px;color:#21345E;font-size:11px;background:#fff;cursor:pointer;display:flex;align-items:center;gap:9px;font-family:'Montserrat',sans-serif;">Documentation<svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#21345E" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <sc-if value="{{ docMenu }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;right:0;top:38px;background:#fff;border:1px solid #E1E4E8;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.14);width:190px;overflow:hidden;z-index:20;">
+              <div style="padding:11px 16px;font-size:12px;color:#1F2D3D;cursor:pointer;border-bottom:1px solid #EDEEF1;">View documents</div>
+              <div style="padding:11px 16px;font-size:12px;color:#1F2D3D;cursor:pointer;">Upload document</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
+      <!-- 3 HEADER CARDS (layout heredado, data nueva) -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
+        <!-- Card 1: identidad -->
+        <div style="background:#fff;border-radius:10px;border:1px solid #1755A1;padding:16px 20px;">
+          <div style="display:flex;align-items:baseline;gap:8px;padding:11px 0;border-bottom:1px solid #E8E8F4;"><span style="font-size:12px;font-weight:600;color:#000;min-width:128px;">Customer name:</span><span style="font-size:12px;color:#000;">Marc-Waine Jordon Williams</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px;padding:11px 0;border-bottom:1px solid #E8E8F4;"><span style="font-size:12px;font-weight:600;color:#000;min-width:128px;">Document number:</span><span style="font-size:12px;color:#000;">123510660</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px;padding:11px 0;"><span style="font-size:12px;font-weight:600;color:#000;min-width:128px;">Customer type:</span><span style="font-size:12px;color:#000;">Recurrent</span></div>
+        </div>
+        <!-- Card 2: producto / riesgo -->
+        <div style="background:#fff;border-radius:10px;border:1px solid #1755A1;padding:16px 20px;">
+          <div style="display:flex;align-items:baseline;gap:8px;padding:11px 0;border-bottom:1px solid #E8E8F4;"><span style="font-size:12px;font-weight:600;color:#000;min-width:104px;">Product type:</span><span style="font-size:12px;color:#000;">HP + Consumer Line</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px;padding:11px 0;border-bottom:1px solid #E8E8F4;"><span style="font-size:12px;font-weight:600;color:#000;min-width:104px;">Scoring:</span><span style="font-size:12px;color:#000;">789</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px;padding:11px 0;"><span style="font-size:12px;font-weight:600;color:#000;min-width:104px;">Classification:</span><span style="font-size:12px;color:#000;">N</span></div>
+        </div>
+        <!-- Card 3: origen de la solicitud -->
+        <div style="background:#fff;border-radius:10px;border:1px solid #1755A1;padding:16px 20px;">
+          <div style="display:flex;align-items:baseline;gap:8px;padding:11px 0;border-bottom:1px solid #E8E8F4;"><span style="font-size:12px;font-weight:600;color:#000;min-width:118px;">Request number:</span><span style="font-size:12px;color:#000;">279600</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px;padding:11px 0;border-bottom:1px solid #E8E8F4;"><span style="font-size:12px;font-weight:600;color:#000;min-width:118px;">Seller:</span><span style="font-size:12px;color:#000;">Tiffany Dunbar</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px;padding:11px 0;"><span style="font-size:12px;font-weight:600;color:#000;min-width:118px;">Store:</span><span style="font-size:12px;color:#000;">LKD JM Half Way Tree</span></div>
+        </div>
+      </div>
+
+      <!-- FRANJA DE KPIs -->
+      <div style="display:flex;background:#fff;border:1px solid #E6E8EC;border-radius:10px;padding:16px 0;margin-bottom:18px;">
+        <div style="flex:1;padding:0 22px;">
+          <div style="font-size:10px;font-weight:600;letter-spacing:.6px;color:#7A8189;margin-bottom:7px;">TOTAL ARREARS</div>
+          <div style="font-size:23px;font-weight:700;color:#C0341F;line-height:1;">J$&nbsp;24,310</div>
+          <div style="font-size:11px;color:#7A8189;margin-top:6px;">2 accounts · in arrears</div>
+        </div>
+        <div style="flex:1;padding:0 22px;border-left:1px solid #E6E8EC;">
+          <div style="font-size:10px;font-weight:600;letter-spacing:.6px;color:#7A8189;margin-bottom:7px;">MONTHLY INSTALLMENT</div>
+          <div style="font-size:23px;font-weight:700;color:#1C3A66;line-height:1;">J$&nbsp;38,120</div>
+          <div style="font-size:11px;color:#7A8189;margin-top:6px;">Available amount</div>
+        </div>
+        <div style="flex:1;padding:0 22px;border-left:1px solid #E6E8EC;">
+          <div style="font-size:10px;font-weight:600;letter-spacing:.6px;color:#7A8189;margin-bottom:7px;">DSR</div>
+          <div style="font-size:23px;font-weight:700;color:#1C3A66;line-height:1;">41%</div>
+          <div style="font-size:11px;color:#7A8189;margin-top:6px;">Installment / income</div>
+        </div>
+        <div style="flex:1.25;padding:0 22px;border-left:1px solid #E6E8EC;">
+          <div style="font-size:10px;font-weight:600;letter-spacing:.6px;color:#7A8189;margin-bottom:7px;">CASH LOAN AVAILABLE</div>
+          <div style="font-size:23px;font-weight:700;color:#1C3A66;line-height:1;">J$&nbsp;180,000</div>
+          <div style="font-size:11px;color:#7A8189;margin-top:6px;">of J$ 220,000</div>
+        </div>
+        <div style="flex:1.25;padding:0 22px;border-left:1px solid #E6E8EC;">
+          <div style="font-size:10px;font-weight:600;letter-spacing:.6px;color:#7A8189;margin-bottom:7px;">HIRED PURCHASES AVAILABLE</div>
+          <div style="font-size:23px;font-weight:700;color:#1C3A66;line-height:1;">J$&nbsp;95,000</div>
+          <div style="font-size:11px;color:#7A8189;margin-top:6px;">of J$ 150,000</div>
+        </div>
+      </div>
+
+      <!-- TABS -->
+      <div style="display:flex;border-radius:8px 8px 0 0;overflow:hidden;">
+        <div onClick="{{ setTab0 }}" style="flex:1;text-align:center;padding:15px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;background: {{ tab0bg }};border-bottom:3px solid {{ tab0ac }};">Customer</div>
+        <div onClick="{{ setTab1 }}" style="flex:1;text-align:center;padding:15px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;background: {{ tab1bg }};border-bottom:3px solid {{ tab1ac }};">AML</div>
+        <div onClick="{{ setTab2 }}" style="flex:1;text-align:center;padding:15px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;background: {{ tab2bg }};border-bottom:3px solid {{ tab2ac }};">Resolution</div>
+      </div>
+
+      <!-- CONTENIDO -->
+      <div style="background:#fff;border-radius:0 0 10px 10px;box-shadow:0 2px 10px rgba(0,0,0,.06);">
+
+        <!-- ══ TAB CUSTOMER ══ -->
+        <sc-if value="{{ isCustomer }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:26px 32px 30px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;">
+              <!-- General information -->
+              <div style="background:#fff;border:1px solid #E6E8EC;border-radius:16px;padding:22px 26px;">
+                <div style="font-size:16px;font-weight:700;color:#1F2D3D;margin-bottom:6px;">General information</div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Full name</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">Marc-Waine Jordon Williams</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Document number (TRN)</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">123510660</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Birth date</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">27/09/1993</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Gender</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">Male</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Marital status</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">Other</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Dependents</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">0</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Nationality</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">Jamaican</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Email</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">marcwainewilliams@gmail.com</span></div>
+              </div>
+              <!-- Financial information -->
+              <div style="background:#fff;border:1px solid #E6E8EC;border-radius:16px;padding:22px 26px;">
+                <div style="font-size:16px;font-weight:700;color:#1F2D3D;margin-bottom:6px;">Financial information</div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Workplace</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">Courts Administration Division</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Position</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">Other</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Source of income</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">Salary</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Frequency of pay</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">Monthly</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Total income</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">J$ 291,753.84</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Expenses</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">J$ 102,127.64</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;border-bottom:1px solid #EDEEF1;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Date of hire</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">01/03/2023</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:var(--fy,14px) 0;"><span style="font-size:14px;color:#7A8189;flex-shrink:0;">Source</span><span style="font-size:14px;font-weight:600;color:#1F2D3D;text-align:right;">Customer Repository</span></div>
+              </div>
+            </div>
+
+            <!-- Contact -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+              <!-- Customer addresses -->
+              <div style="background:#fff;border:1px solid #E6E8EC;border-radius:16px;padding:22px 26px;">
+                <div style="font-size:16px;font-weight:700;color:#1F2D3D;margin-bottom:14px;">Customer addresses</div>
+
+                <div style="padding-bottom:16px;border-bottom:1px solid #EDEEF1;">
+                  <div style="font-size:11px;font-weight:700;letter-spacing:.5px;color:#7A8189;text-transform:uppercase;margin-bottom:6px;">Personal</div>
+                  <div style="font-size:14px;font-weight:600;color:#1F2D3D;margin-bottom:5px;">2 Sandy Park Road, Kingston 6, St. Andrew</div>
+                  <div style="font-size:13px;color:#7A8189;">Reference point: Hope Road</div>
+                </div>
+
+                <div style="padding-top:16px;">
+                  <div style="font-size:11px;font-weight:700;letter-spacing:.5px;color:#7A8189;text-transform:uppercase;margin-bottom:6px;">Work</div>
+                  <div style="font-size:14px;font-weight:600;color:#1F2D3D;margin-bottom:5px;">Courts Administration Division, King Street, Kingston</div>
+                  <div style="font-size:13px;color:#7A8189;">Reference point: Supreme Court Building</div>
+                </div>
+              </div>
+
+              <!-- Phone numbers -->
+              <div style="background:#fff;border:1px solid #E6E8EC;border-radius:16px;padding:22px 26px;">
+                <div style="font-size:16px;font-weight:700;color:#1F2D3D;margin-bottom:14px;">Phone numbers</div>
+
+                <div style="padding-bottom:16px;border-bottom:1px solid #EDEEF1;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;">
+                    <div style="font-size:11px;font-weight:700;letter-spacing:.5px;color:#7A8189;text-transform:uppercase;">Mobile</div>
+                    <span style="background:#FBEEC8;color:#9A6B00;font-size:11px;font-weight:700;border-radius:6px;padding:3px 10px;">Pending</span>
+                  </div>
+                  <div style="font-size:14px;font-weight:600;color:#1F2D3D;margin-bottom:5px;">876 · 3378623</div>
+                  <div style="font-size:13px;color:#7A8189;">Telephone verification: pending</div>
+                </div>
+
+                <div style="padding-top:16px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;">
+                    <div style="font-size:11px;font-weight:700;letter-spacing:.5px;color:#7A8189;text-transform:uppercase;">Home</div>
+                    <span style="background:#E3F3E8;color:#2E8B4F;font-size:11px;font-weight:700;border-radius:6px;padding:3px 10px;">Verified</span>
+                  </div>
+                  <div style="font-size:14px;font-weight:600;color:#1F2D3D;margin-bottom:5px;">876 · 8862353</div>
+                  <div style="font-size:13px;color:#7A8189;">Telephone verification: verified</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ══ TAB AML ══ -->
+        <sc-if value="{{ isAml }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:26px 32px 30px;">
+            <div style="font-size:15px;font-weight:700;color:#1C3A66;padding-bottom:10px;border-bottom:1px solid #E6E8EC;margin-bottom:8px;">AML / KYC</div>
+            <div style="display:flex;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid #EDEEF1;"><span style="display:inline-flex;align-items:center;gap:5px;background:#E3F3E8;color:#2E8B4F;font-size:11px;font-weight:700;border-radius:6px;padding:4px 10px;"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#2E8B4F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>OK</span><span style="font-size:14px;color:#1F2D3D;">Personal PEP — no matches</span></div>
+            <div style="display:flex;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid #EDEEF1;"><span style="display:inline-flex;align-items:center;gap:5px;background:#FBEEC8;color:#9A6B00;font-size:11px;font-weight:700;border-radius:6px;padding:4px 10px;"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L13 12H1L7 1.5Z" stroke="#9A6B00" stroke-width="1.3" stroke-linejoin="round"/><path d="M7 6V8.5M7 10V10.2" stroke="#9A6B00" stroke-width="1.3" stroke-linecap="round"/></svg>Exception</span><span style="font-size:14px;color:#1F2D3D;">Family PEP — match to review (EMMA)</span></div>
+            <div style="display:flex;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid #EDEEF1;"><span style="display:inline-flex;align-items:center;gap:5px;background:#E3F3E8;color:#2E8B4F;font-size:11px;font-weight:700;border-radius:6px;padding:4px 10px;"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#2E8B4F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>OK</span><span style="font-size:14px;color:#1F2D3D;">Caution list — no matches</span></div>
+            <div style="display:flex;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid #EDEEF1;"><span style="display:inline-flex;align-items:center;gap:5px;background:#E3F3E8;color:#2E8B4F;font-size:11px;font-weight:700;border-radius:6px;padding:4px 10px;"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#2E8B4F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>OK</span><span style="font-size:14px;color:#1F2D3D;">Risk matrix — within threshold</span></div>
+            <div onClick="{{ toggleAml }}" style="display:flex;align-items:center;gap:6px;font-size:12px;color:#1755A1;font-weight:600;cursor:pointer;margin-top:16px;"><span style="transform: {{ amlRot }};display:inline-block;transition:transform .2s;">▾</span>{{ amlLink }}</div>
+            <sc-if value="{{ showAml }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:14px;background:#F6F7F9;border-radius:10px;padding:16px 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+                <div><div style="font-size:11px;color:#7A8189;margin-bottom:5px;">Source 1</div><div style="font-size:13px;font-weight:600;color:#1F2D3D;">OFAC SDN — no matches</div></div>
+                <div><div style="font-size:11px;color:#7A8189;margin-bottom:5px;">Source 2</div><div style="font-size:13px;font-weight:600;color:#1F2D3D;">UN Consolidated — no matches</div></div>
+                <div><div style="font-size:11px;color:#7A8189;margin-bottom:5px;">Source 3</div><div style="font-size:13px;font-weight:600;color:#9A6B00;">Local PEP registry — 1 to review</div></div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ══ TAB RESOLUTION ══ -->
+        <sc-if value="{{ isRes }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:26px 32px 30px;display:flex;flex-direction:column;gap:18px;">
+            <!-- Sale conditions -->
+            <div style="background:#fff;border:1px solid #E6E8EC;border-radius:16px;padding:22px 26px;">
+            <div style="font-size:16px;font-weight:700;color:#1F2D3D;margin-bottom:16px;">Sale conditions</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 48px;margin-bottom:22px;">
+              <div>
+                <div style="font-size:13px;font-weight:700;color:#1F2D3D;margin-bottom:10px;">Hired purchases spending limit</div>
+                <div style="height:9px;border-radius:5px;background:#E3E6EA;overflow:hidden;display:flex;margin-bottom:16px;"><div style="height:100%;width:37%;background:#2E8B4F;"></div><div style="height:100%;width:57%;background:#E0A53B;"></div></div>
+                <div style="display:flex;gap:32px;flex-wrap:wrap;">
+                  <div><div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#7A8189;margin-bottom:5px;"><span style="width:9px;height:9px;border-radius:2px;background:#2E8B4F;"></span>Used</div><div style="font-size:20px;font-weight:700;color:#1C3A66;">J$ 55,000</div></div>
+                  <div><div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#7A8189;margin-bottom:5px;"><span style="width:9px;height:9px;border-radius:2px;background:#E0A53B;"></span>This purchase</div><div style="font-size:20px;font-weight:700;color:#1C3A66;">J$ 85,000</div></div>
+                  <div><div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#7A8189;margin-bottom:5px;"><span style="width:9px;height:9px;border-radius:2px;background:#E3E6EA;"></span>Available</div><div style="font-size:20px;font-weight:700;color:#1C3A66;">J$ 10,000</div></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:#1F2D3D;margin-bottom:10px;">MMI</div>
+                <div style="height:9px;border-radius:5px;background:#E3E6EA;overflow:hidden;display:flex;margin-bottom:16px;"><div style="height:100%;width:58%;background:#2E8B4F;"></div><div style="height:100%;width:11%;background:#E0A53B;"></div></div>
+                <div style="display:flex;gap:32px;flex-wrap:wrap;">
+                  <div><div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#7A8189;margin-bottom:5px;"><span style="width:9px;height:9px;border-radius:2px;background:#2E8B4F;"></span>Used</div><div style="font-size:20px;font-weight:700;color:#1C3A66;">J$ 22,000</div></div>
+                  <div><div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#7A8189;margin-bottom:5px;"><span style="width:9px;height:9px;border-radius:2px;background:#E0A53B;"></span>This purchase</div><div style="font-size:20px;font-weight:700;color:#1C3A66;">J$ 4,120</div></div>
+                  <div><div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#7A8189;margin-bottom:5px;"><span style="width:9px;height:9px;border-radius:2px;background:#E3E6EA;"></span>Available</div><div style="font-size:20px;font-weight:700;color:#1C3A66;">J$ 12,000</div></div>
+                </div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0 40px;background:#FAFAFA;border:1px solid #EFEFEF;border-radius:12px;padding:18px 22px;">
+              <div style="padding:2px 0 14px;border-bottom:1px solid #EDEEF1;"><div style="font-size:11px;color:#7A8189;margin-bottom:6px;">Total credit amount</div><div style="font-size:14px;font-weight:600;color:#1F2D3D;">J$ 85,000</div></div>
+              <div style="padding:2px 0 14px;border-bottom:1px solid #EDEEF1;"><div style="font-size:11px;color:#7A8189;margin-bottom:6px;">Term</div><div style="font-size:14px;font-weight:600;color:#1F2D3D;">24 months</div></div>
+              <div style="padding:2px 0 14px;border-bottom:1px solid #EDEEF1;"><div style="font-size:11px;color:#7A8189;margin-bottom:6px;">Payment cycle</div><div style="font-size:14px;font-weight:600;color:#1F2D3D;">Monthly</div></div>
+              <div style="padding:2px 0 14px;border-bottom:1px solid #EDEEF1;"><div style="font-size:11px;color:#7A8189;margin-bottom:6px;">Installment</div><div style="font-size:14px;font-weight:600;color:#1F2D3D;">J$ 4,120</div></div>
+              <div style="padding:14px 0 6px;"><div style="font-size:11px;color:#7A8189;margin-bottom:6px;">Grace period</div><div style="font-size:14px;font-weight:600;color:#1F2D3D;">No</div></div>
+              <div style="padding:14px 0 6px;"><div style="font-size:11px;color:#7A8189;margin-bottom:6px;">Promotional plan</div><div style="font-size:14px;font-weight:600;color:#1F2D3D;">—</div></div>
+              <div style="padding:14px 0 6px;"><div style="font-size:11px;color:#7A8189;margin-bottom:6px;">SL Total</div><div style="font-size:14px;font-weight:600;color:#1F2D3D;">J$ 370,000</div></div>
+            </div>
+            </div>
+
+            <!-- SmartCredit -->
+            <div style="background:#fff;border:1px solid #E6E8EC;border-radius:16px;padding:22px 26px;">
+            <div style="font-size:16px;font-weight:700;color:#1F2D3D;margin-bottom:16px;">SmartCredit</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 40px;margin-bottom:8px;">
+              <div style="padding:2px 0 6px;"><div style="font-size:11px;color:#7A8189;margin-bottom:6px;">Scoring</div><div style="font-size:20px;font-weight:700;color:#1C3A66;">789</div></div>
+              <div style="padding:2px 0 6px;"><div style="font-size:11px;color:#7A8189;margin-bottom:6px;">Engine decision</div><div style="display:inline-flex;align-items:center;gap:7px;"><span style="font-size:14px;font-weight:700;color:#1F2D3D;">Conditional approval</span><span style="background:#FBEEC8;color:#9A6B00;font-size:10px;font-weight:600;border-radius:5px;padding:3px 8px;">EMMA</span></div></div>
+              <div style="padding:2px 0 6px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;"><a style="font-size:13px;font-weight:700;color:#1755A1;text-decoration:underline;cursor:pointer;">View SmartCredit report ↗</a><a style="font-size:13px;font-weight:700;color:#1755A1;text-decoration:underline;cursor:pointer;">Smart credit history ↗</a></div>
+            </div>
+            </div>
+
+            <!-- Customer accounts -->
+            <div style="background:#fff;border:1px solid #E6E8EC;border-radius:16px;padding:22px 26px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 14px;">
+              <div style="font-size:16px;font-weight:700;color:#1F2D3D;">Customer accounts</div>
+              <button style="border:1px solid #1755A1;border-radius:14px;padding:6px 16px;color:#1755A1;font-size:11px;background:#fff;cursor:pointer;font-family:'Montserrat',sans-serif;">Download account data</button>
+            </div>
+            <table style="width:100%;border-collapse:collapse;margin-bottom:6px;">
+              <thead><tr style="background:#F2F4F7;">
+                <th style="text-align:left;font-size:10px;font-weight:600;letter-spacing:.4px;color:#5C636B;padding:11px 12px;">ACCOUNT</th>
+                <th style="text-align:right;font-size:10px;font-weight:600;letter-spacing:.4px;color:#5C636B;padding:11px 12px;">LOAN AMOUNT</th>
+                <th style="text-align:right;font-size:10px;font-weight:600;letter-spacing:.4px;color:#5C636B;padding:11px 12px;">PRINCIPAL</th>
+                <th style="text-align:right;font-size:10px;font-weight:600;letter-spacing:.4px;color:#5C636B;padding:11px 12px;">INTEREST</th>
+                <th style="text-align:right;font-size:10px;font-weight:600;letter-spacing:.4px;color:#5C636B;padding:11px 12px;">ARREARS</th>
+                <th style="text-align:right;font-size:10px;font-weight:600;letter-spacing:.4px;color:#5C636B;padding:11px 12px;">TOTAL BALANCE</th>
+              </tr></thead>
+              <tbody><tr style="border-bottom:1px solid #EDEEF1;">
+                <td style="text-align:left;font-size:13px;font-weight:700;color:#1F2D3D;padding:14px 12px;">Consolidated</td>
+                <td style="text-align:right;font-size:13px;color:#1F2D3D;padding:14px 12px;">J$ 220,000</td>
+                <td style="text-align:right;font-size:13px;color:#1F2D3D;padding:14px 12px;">J$ 138,400</td>
+                <td style="text-align:right;font-size:13px;color:#1F2D3D;padding:14px 12px;">J$ 12,090</td>
+                <td style="text-align:right;font-size:13px;font-weight:700;color:#C0341F;padding:14px 12px;">J$ 24,310</td>
+                <td style="text-align:right;font-size:13px;font-weight:600;color:#1F2D3D;padding:14px 12px;">J$ 174,800</td>
+              </tr></tbody>
+            </table>
+            <div onClick="{{ toggleAcct }}" style="display:flex;align-items:center;gap:6px;font-size:13px;color:#1755A1;font-weight:600;cursor:pointer;padding:8px 0 4px;"><span style="transform: {{ acctRot }};display:inline-block;transition:transform .2s;">▸</span>Accounts detail (account by account)</div>
+            <sc-if value="{{ acctDetail }}" hint-placeholder-val="{{ false }}">
+              <table style="width:100%;border-collapse:collapse;margin:6px 0 4px;">
+                <thead><tr style="background:#F2F4F7;">
+                  <th style="text-align:left;font-size:10px;font-weight:600;letter-spacing:.4px;color:#5C636B;padding:10px 12px;">ACCOUNT</th>
+                  <th style="text-align:center;font-size:10px;font-weight:600;letter-spacing:.4px;color:#5C636B;padding:10px 12px;">PRODUCT</th>
+                  <th style="text-align:center;font-size:10px;font-weight:600;letter-spacing:.4px;color:#5C636B;padding:10px 12px;">STATUS</th>
+                  <th style="text-align:right;font-size:10px;font-weight:600;letter-spacing:.4px;color:#5C636B;padding:10px 12px;">ARREARS</th>
+                  <th style="text-align:right;font-size:10px;font-weight:600;letter-spacing:.4px;color:#5C636B;padding:10px 12px;">BALANCE</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid #EDEEF1;"><td style="font-size:13px;font-weight:600;color:#1F2D3D;padding:13px 12px;">1234</td><td style="text-align:center;font-size:13px;color:#1F2D3D;padding:13px 12px;">CL Furniture</td><td style="text-align:center;padding:13px 12px;"><span style="background:#E3F3E8;color:#2E8B4F;font-size:11px;font-weight:600;border-radius:5px;padding:3px 10px;">Active</span></td><td style="text-align:right;font-size:13px;color:#1F2D3D;padding:13px 12px;">J$ 0</td><td style="text-align:right;font-size:13px;color:#1F2D3D;padding:13px 12px;">J$ 12,400</td></tr>
+                  <tr style="border-bottom:1px solid #EDEEF1;"><td style="font-size:13px;font-weight:600;color:#1F2D3D;padding:13px 12px;">5678</td><td style="text-align:center;font-size:13px;color:#1F2D3D;padding:13px 12px;">HP Electronics</td><td style="text-align:center;padding:13px 12px;"><span style="background:#FBE3E0;color:#C0341F;font-size:11px;font-weight:600;border-radius:5px;padding:3px 10px;">In arrears</span></td><td style="text-align:right;font-size:13px;font-weight:700;color:#C0341F;padding:13px 12px;">J$ 24,310</td><td style="text-align:right;font-size:13px;color:#1F2D3D;padding:13px 12px;">J$ 31,900</td></tr>
+                  <tr><td style="font-size:13px;font-weight:600;color:#1F2D3D;padding:13px 12px;">9012</td><td style="text-align:center;font-size:13px;color:#1F2D3D;padding:13px 12px;">CL Home</td><td style="text-align:center;padding:13px 12px;"><span style="background:#E3F3E8;color:#2E8B4F;font-size:11px;font-weight:600;border-radius:5px;padding:3px 10px;">Active</span></td><td style="text-align:right;font-size:13px;color:#1F2D3D;padding:13px 12px;">J$ 0</td><td style="text-align:right;font-size:13px;color:#1F2D3D;padding:13px 12px;">J$ 130,500</td></tr>
+                </tbody>
+              </table>
+            </sc-if>
+            </div>
+
+            <!-- Resolution -->
+            <div style="background:#F2F5F9;border-radius:12px;padding:22px 24px;">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:18px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4" stroke="#1C3A66" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="#1C3A66" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-size:15px;font-weight:700;color:#1C3A66;">Resolution</span></div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0 32px;margin-bottom:20px;">
+                <div style="border-bottom:1px solid #C9D2DD;padding-bottom:7px;"><div style="font-size:11px;color:#7A8189;margin-bottom:7px;">Current state</div><div style="font-size:14px;font-weight:600;color:#1F2D3D;">In review</div></div>
+                <div style="border-bottom:1px solid #1C3A66;padding-bottom:7px;"><div style="font-size:11px;color:#1C3A66;margin-bottom:7px;">New state</div><select value="{{ newState }}" onChange="{{ onNewState }}" style="border:none;outline:none;background:transparent;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:600;color:#1C3A66;width:100%;cursor:pointer;"><option value="">Select</option><option value="Approved">Approved</option><option value="Rejected">Rejected</option><option value="Pending">Pending</option></select></div>
+                <div style="border-bottom:1px solid #1C3A66;padding-bottom:7px;"><div style="font-size:11px;color:#1C3A66;margin-bottom:7px;">Substate</div><select onChange="{{ onSub }}" style="border:none;outline:none;background:transparent;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:600;color:#1C3A66;width:100%;cursor:pointer;"><option value="">Select</option><option>Documentation complete</option><option>Pending verification</option><option>Risk override</option></select></div>
+                <div style="border-bottom:1px solid #1C3A66;padding-bottom:7px;"><div style="font-size:11px;color:#1C3A66;margin-bottom:7px;">Observations</div><input onInput="{{ onObs }}" placeholder="..." style="border:none;outline:none;background:transparent;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:600;color:#1C3A66;width:100%;"></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:flex-end;gap:16px;">
+                <sc-if value="{{ saved }}" hint-placeholder-val="{{ false }}">
+                  <span style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#2E8B4F;"><svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#2E8B4F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>{{ savedMsg }}</span>
+                </sc-if>
+                <button onClick="{{ doSave }}" style="background: {{ saveBg }};border:none;border-radius:22px;padding:11px 30px;color:#fff;font-size:13px;font-weight:600;cursor: {{ saveCursor }};font-family:'Montserrat',sans-serif;">Save resolution</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#1755A1">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#1755A1"/>
+    <rect x="360" y="250" width="480" height="300" rx="24" fill="#ffffff"/>
+    <rect x="400" y="300" width="220" height="26" rx="8" fill="#1C3A66"/>
+    <rect x="400" y="350" width="400" height="14" rx="7" fill="#C9D2DD"/>
+    <rect x="400" y="380" width="320" height="14" rx="7" fill="#C9D2DD"/>
+    <rect x="400" y="430" width="120" height="40" rx="10" fill="#C0341F"/>
+    <rect x="540" y="430" width="120" height="40" rx="10" fill="#2E8B4F"/>
+    <rect x="680" y="430" width="120" height="40" rx="10" fill="#F2B200"/>
+  </svg>
+</template>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1320, &quot;height&quot;: 940 },
+  &quot;density&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;comfortable&quot;, &quot;compact&quot;], &quot;default&quot;: &quot;comfortable&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;defaultTab&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;Customer&quot;, &quot;AML&quot;, &quot;Resolution&quot;], &quot;default&quot;: &quot;Customer&quot;, &quot;tsType&quot;: &quot;string&quot; }
+}">
+class Component extends DCLogic {
+  state = {
+    tab: null, acctDetail: false, showAddr: false, showTels: false,
+    showAml: false, docMenu: false, sbOpen: false,
+    newState: '', substate: '', obs: '', saved: false
+  };
+
+  defaultTabIndex() {
+    const d = this.props.defaultTab || 'Customer';
+    return d === 'AML' ? 1 : d === 'Resolution' ? 2 : 0;
+  }
+  get activeTab() {
+    return this.state.tab === null ? this.defaultTabIndex() : this.state.tab;
+  }
+
+  renderVals() {
+    const t = this.activeTab;
+    const bg = (i) => (i === t ? '#1C3A66' : '#2160AB');
+    const ac = (i) => (i === t ? '#F2B200' : 'transparent');
+    const rotOpen = (on) => (on ? 'rotate(180deg)' : 'rotate(0deg)');
+
+    return {
+      rowPad: this.props.density === 'compact' ? '7px' : '12px',
+
+      sbOpen: this.state.sbOpen,
+      sbCollapsed: !this.state.sbOpen,
+      sbWidth: this.state.sbOpen ? '250px' : '58px',
+      toggleSb: () => this.setState(s => ({ sbOpen: !s.sbOpen })),
+
+      isCustomer: t === 0, isAml: t === 1, isRes: t === 2,
+      tab0bg: bg(0), tab1bg: bg(1), tab2bg: bg(2),
+      tab0ac: ac(0), tab1ac: ac(1), tab2ac: ac(2),
+      setTab0: () => this.setState({ tab: 0 }),
+      setTab1: () => this.setState({ tab: 1 }),
+      setTab2: () => this.setState({ tab: 2 }),
+
+      goBack: () => { window.location.href = 'Backoffice working tray.html#requests'; },
+
+      docMenu: this.state.docMenu,
+      toggleDoc: () => this.setState(s => ({ docMenu: !s.docMenu })),
+
+      showAddr: this.state.showAddr,
+      toggleAddr: () => this.setState(s => ({ showAddr: !s.showAddr })),
+      addrRot: rotOpen(this.state.showAddr),
+      addrLink: this.state.showAddr ? 'Hide other addresses' : 'Work address · Delivery address',
+
+      showTels: this.state.showTels,
+      toggleTels: () => this.setState(s => ({ showTels: !s.showTels })),
+      telRot: rotOpen(this.state.showTels),
+      telLink: this.state.showTels ? 'Hide other phones' : 'Tel 2 · Tel 3',
+
+      showAml: this.state.showAml,
+      toggleAml: () => this.setState(s => ({ showAml: !s.showAml })),
+      amlRot: rotOpen(this.state.showAml),
+      amlLink: this.state.showAml ? 'Hide full AML' : 'Show full AML (3 sources)',
+
+      acctDetail: this.state.acctDetail,
+      toggleAcct: () => this.setState(s => ({ acctDetail: !s.acctDetail })),
+      acctRot: this.state.acctDetail ? 'rotate(90deg)' : 'rotate(0deg)',
+
+      newState: this.state.newState,
+      onNewState: (e) => this.setState({ newState: e.target.value, saved: false }),
+      onSub: (e) => this.setState({ substate: e.target.value }),
+      onObs: (e) => this.setState({ obs: e.target.value }),
+      saved: this.state.saved,
+      savedMsg: 'Resolution saved · ' + this.state.newState,
+      saveBg: this.state.newState ? '#2E8B4F' : '#C8CCD1',
+      saveCursor: this.state.newState ? 'pointer' : 'not-allowed',
+      doSave: () => { if (this.state.newState) this.setState({ saved: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
